@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capnc-deployment
+  labels:
+    app: capnc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: capnc
+  template:
+    metadata:
+      labels:
+        app: capnc
+    spec:
+      containers:
+      - name: capncrunch
+        image: bochai/capnc:latest
+        imagePullPolicy: Always
+        env:
+        volumeMounts:
+        - mountPath: /opt/capnc/output/full/
+          name: output
+      volumes:
+        - name: output
+          hostPath:
+            path: /opt/capnc/output/full/
+            type: Directory
